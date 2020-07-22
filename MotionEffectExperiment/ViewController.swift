@@ -15,13 +15,13 @@ class ViewController: UIViewController {
         return button
     }()
     
-    let movingShadowHorisontalEffect = UIInterpolatingMotionEffect(
-        keyPath: "layer.shadowOffset.width",
+    let horisontalEffect = UIInterpolatingMotionEffect(
+        keyPath: "center.x",//"layer.shadowOffset.width",
         type: .tiltAlongHorizontalAxis
     )
     
-    let movingShadowVerticalEffect = UIInterpolatingMotionEffect(
-        keyPath: "layer.shadowOffset.height",
+    let verticalEffect = UIInterpolatingMotionEffect(
+        keyPath: "center.y",//"layer.shadowOffset.height",
         type: .tiltAlongVerticalAxis
     )
 
@@ -29,7 +29,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         makeLayout()
-        addShadowMovingEffect()
+        //addShadow()
+        addMovingEffect()
+    }
+    
+    private func addShadow() {
+        motionEffectButton.layer.shadowOpacity = 0.8
+        motionEffectButton.layer.shadowRadius = 15
+        motionEffectButton.layer.shadowColor = UIColor.black.cgColor
+        motionEffectButton.layer.shadowOffset = CGSize(width: 0, height: 26)
     }
     
     private func makeLayout() {
@@ -37,21 +45,17 @@ class ViewController: UIViewController {
         motionEffectButton.center = view.center
     }
 
-    private func addShadowMovingEffect() {
+    private func addMovingEffect() {
         let effectGroup = UIMotionEffectGroup()
         
-        movingShadowHorisontalEffect.minimumRelativeValue = 50
-        movingShadowHorisontalEffect.maximumRelativeValue = -50
+        horisontalEffect.minimumRelativeValue = 50
+        horisontalEffect.maximumRelativeValue = -50
         
-        movingShadowVerticalEffect.minimumRelativeValue = 50
-        movingShadowVerticalEffect.maximumRelativeValue = -50
+        verticalEffect.minimumRelativeValue = 50
+        verticalEffect.maximumRelativeValue = -50
         
-        effectGroup.motionEffects = [movingShadowHorisontalEffect, movingShadowVerticalEffect]
+        effectGroup.motionEffects = [horisontalEffect, verticalEffect]
         
-        motionEffectButton.layer.shadowOpacity = 0.8
-        motionEffectButton.layer.shadowRadius = 15
-        motionEffectButton.layer.shadowColor = UIColor.black.cgColor
-        motionEffectButton.layer.shadowOffset = CGSize(width: 0, height: 26)
         motionEffectButton.addMotionEffect(effectGroup)
     }
 }
